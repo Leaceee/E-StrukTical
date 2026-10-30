@@ -1,0 +1,27 @@
+<h2>Admin Validasi Struk</h2>
+
+<table border="1" cellpadding="10">
+<tr>
+  <th>User</th>
+  <th>Jenis</th>
+  <th>Transaksi</th>
+  <th>Foto</th>
+  <th>Aksi</th>
+</tr>
+
+{% for s in data %}
+<tr>
+  <td>{{ s.nama }}</td>
+  <td>{{ s.jenis_struk }}</td>
+  <td>{{ s.nama_transaksi }}</td>
+  <td>
+    <img src="{{ url_for('static', filename='uploads/' + s.foto_struk) }}" width="120">
+  </td>
+  <td>
+    <a href="/admin/validasi/{{ s.id }}/Valid">✅ Valid</a> |
+    <a href="/admin/validasi/{{ s.id }}/Invalid">❌ Invalid</a>
+  </td>
+</tr>
+{% endfor %}
+</table>
+

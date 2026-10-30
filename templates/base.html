@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}E-Struktical{% endblock %}</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS utama -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="{% if request.endpoint == 'dashboard' %}page-dashboard{% endif %}">
+
+  <!-- MINI MENU HANYA DI DASHBOARD -->
+  {% if request.endpoint == 'dashboard' %}
+  <div class="auth-mini-menu">
+  </div>
+  {% endif %}
+
+<!-- FLASH MESSAGE -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div id="toast-container">
+      {% for category, message in messages %}
+        <div class="toast toast-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ============================= -->
+  <!-- PASSWORD TOGGLE (GLOBAL FIX) -->
+  <!-- ============================= -->
+<script>
+function togglePassword(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+    btn.classList.add("active");
+  } else {
+    input.type = "password";
+    btn.classList.remove("active");
+  }
+}
+</script>
+
+<script>
+  setTimeout(() => {
+    const flash = document.getElementById('flash-wrapper');
+    if (flash) {
+      flash.style.opacity = '0';
+      flash.style.transform = 'translate(-50%, -10px)';
+      setTimeout(() => flash.remove(), 500);
+    }
+  }, 3000); // 3 detik
+</script>
+
+<script>
+function toggleStat(icon) {
+  const statValue = icon.nextElementSibling;
+
+  // jika masih tersembunyi
+  if (statValue.innerText === '•••') {
+    statValue.innerText = statValue.dataset.value;
+    icon.innerText = '👁️';
+  } else {
+    statValue.innerText = '•••';
+    icon.innerText = '👁️‍🗨️';
+  }
+}
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toasts = document.querySelectorAll(".toast");
+
+    toasts.forEach(toast => {
+      setTimeout(() => {
+        toast.classList.add("hide");
+      }, 3000);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3500);
+    });
+  });
+</script>
+
+<script>
+function konfirmasiTukar(nama, poin) {
+  const yakin = confirm(
+    `Tukar hadiah:\n${nama}\nDengan ${poin} poin?`
+  );
+
+  if (yakin) {
+    alert("Simulasi: Hadiah akan ditukar (backend belum aktif)");
+  }
+}
+</script>
+
+
+</body>
+</html>

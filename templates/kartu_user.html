@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Kartu User - E-Struktical{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="dashboard-sidebar">
+    <div class="dash-logo">
+      <img src="{{ url_for('static', filename='img/logo-daun.png') }}" class="dash-logo-icon">
+      <h2 class="dash-logo-title">E-Struktical</h2>
+      <p class="dash-logo-sub">Struk Digital, Poin Ramah Lingkungan</p>
+      <div class="dash-logo-line"></div>
+    </div>
+
+    <input class="sidebar-search" placeholder="Search">
+
+    <div class="sidebar-stats">
+    <div class="stat-item">
+  ⭐ Jumlah Point
+  <span class="eye-toggle" onclick="toggleStat(this)">👁️‍🗨️</span>
+  <b class="stat-value" data-value="{{ total_poin }}">•••</b>
+</div>
+      <div class="stat-item">
+  🧾 Struk Terupload
+  <span class="eye-toggle" onclick="toggleStat(this)">👁️‍🗨️</span>
+  <b class="stat-value" data-value="{{ total_struk }}">•••</b>
+</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <section class="dashboard-main">
+
+    <div class="dash-top-bar">
+      <span class="menu-icon">☰</span>
+      <div class="user-login-status">
+        👤 {{ display_name }}
+      </div>
+    </div>
+
+    <h1>Kartu User</h1>
+    <div class="breadcrumb">
+  <a href="{{ url_for('dashboard') }}">Dashboard</a> /
+  <a href="{{ url_for('penukaran_hadiah') }}" class="active">
+    Penukaran Hadiah
+  </a>
+</div>
+
+
+    <!-- KARTU IDENTITAS -->
+    <div class="kartu-wrapper">
+      <div class="kartu-user">
+
+        <div class="kartu-header">
+          <div class="avatar">
+            👤
+          </div>
+          <h2>{{ user.nama }}</h2>
+        </div>
+
+        <div class="kartu-body">
+          <p><b>Alamat :</b> {{ user.alamat or '-' }}</p>
+          <p><b>Email :</b> {{ user.email }}</p>
+        </div>
+
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dash-bottom-bar">
+      <p>© 2025 E-Struktical. All rights reserved.</p>
+    </div>
+
+  </section>
+</div>
+{% endblock %}

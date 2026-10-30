@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - E-Struktical{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="dashboard-sidebar">
+    <div class="dash-logo">
+      <img src="{{ url_for('static', filename='img/logo-daun.png') }}" class="dash-logo-icon">
+      <h2 class="dash-logo-title">E-Struktical</h2>
+      <p class="dash-logo-sub">Struk Digital, Poin Ramah Lingkungan</p>
+      <div class="dash-logo-line"></div>
+    </div>
+
+    <input class="sidebar-search" placeholder="Search">
+
+    <div class="sidebar-stats">
+    <div class="stat-item">
+    ⭐ Jumlah Point
+    <span class="eye-toggle" onclick="toggleStat(this)">👁️‍🗨️</span>
+    <b class="stat-value" data-value="{{ total_poin }}">•••</b>
+  </div>
+
+
+  <div class="stat-item">
+    🎁 Jumlah Hadiah
+    <span class="eye-toggle" onclick="toggleStat(this)">👁️‍🗨️</span>
+    <b class="stat-value" data-value="06">•••</b>
+  </div>
+  
+    <div class="stat-item">
+    🧾 Struk Terupload
+    <span class="eye-toggle" onclick="toggleStat(this)">👁️‍🗨️</span>
+    <b class="stat-value" data-value="{{ total_struk }}">•••</b>
+  </div>
+
+</div>
+  </aside>
+
+  <!-- MAIN -->
+  <section class="dashboard-main">
+
+    <div class="dash-top-bar">
+      <span class="menu-icon">☰</span>
+      <div class="user-login-status">
+        👤 {{ display_name | default('User') }}
+      </div>
+    </div>
+
+    <h1>Dashboard</h1>
+    <div class="breadcrumb">
+  <a href="{{ url_for('logout') }}">logout</a> /
+  <a href="{{ url_for('kartu_user') }}">Informasi Akun User</a> /
+  <a href="{{ url_for('penukaran_hadiah') }}" class="active">
+    Penukaran Hadiah
+  </a>
+</div>
+
+
+    <!-- GRID -->
+    <div class="dashboard-grid">
+
+      <!-- LEFT : UPLOAD -->
+      <div class="upload-column">
+
+        {% macro upload_card(jenis, judul, desc) %}
+<div class="upload-card">
+  <h4>{{ judul }}</h4>
+  <p>{{ desc }}</p>
+
+  <form action="{{ url_for('upload_struk', jenis=jenis) }}"
+        method="POST"
+        enctype="multipart/form-data">
+
+    <input type="file"
+            id="file-{{ jenis }}"
+            name="foto_struk"
+            accept="image/*"
+            hidden
+            onchange="this.form.submit()">
+
+    <div class="upload-icon"
+          onclick="document.getElementById('file-{{ jenis }}').click()">
+      +
+      <span>Upload disini</span>
+    </div>
+
+  </form>
+</div>
+{% endmacro %}
+
+
+        {{ upload_card('belanja',
+          'Struk Belanja 🛍️',
+          'Upload struk belanja dan dapatkan poin.') }}
+
+        {{ upload_card('food',
+          'Struk Food / Drinks 🍔',
+          'Upload struk makanan & minuman.') }}
+
+        {{ upload_card('topup',
+          'Struk Top-Up 💳',
+          'Upload struk top-up / e-wallet.') }}
+
+      </div>
+
+      <!-- RIGHT : RIWAYAT -->
+      <div class="history-column">
+
+        <div class="dash-card">
+          <h3>Riwayat Penukaran Struk</h3>
+
+          {% if struk_list %}
+            {% for s in struk_list %}
+              <p>
+                👤 {{ display_name }} |
+                🛒 {{ s.nama_transaksi }} |
+                📄 {{ s.jenis_struk|capitalize }} |
+                📅 {{ s.tanggal_upload.strftime('%d-%m-%Y') }} |
+                {% if s.status_validasi == 'Valid' %}
+                  ✅
+                {% elif s.status_validasi == 'Invalid' %}
+                  ❌
+                {% else %}
+                  ⏳
+                {% endif %}
+
+                {% if s.status_validasi == 'Pending' %}
+                  <a href="{{ url_for('delete_struk', id=s['id']) }}"
+                  onclick="return confirm('Apakah yakin untuk menghapus struk ini?')">
+                  🗑️
+                  </a>
+              {% endif %}
+              </p>
+            {% endfor %}
+          {% else %}
+            <p>Belum ada data</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-bottom-bar">
+      <p>© 2025 E-Struktical. Elektronik Struk Practical.</p>
+    </div>
+
+  </section>
+</div>
+{% endblock %}
+

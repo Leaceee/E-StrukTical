@@ -1,0 +1,2061 @@
+/* =============== */
+/*  Global Styles  */
+/* =============== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  height: 100%;
+}
+
+/* Background halaman: overlay hijau + pattern PNG */
+.page-bg {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px; /* space agar card tidak nempel ke tepi */
+  background-image:
+    linear-gradient(rgba(177, 248, 214, 0.95), rgba(219, 251, 236, 0.95)),
+    url('../img/background-struk.png');
+  background-size: cover, 420px 420px;
+  background-repeat: no-repeat, repeat;
+  background-position: center center, center center;
+  background-attachment: fixed;
+}
+
+/* wrapper supaya card tidak mentok pinggir */
+.card-wrap {
+  width: 100%;
+  max-width: 920px;
+}
+
+/* card (central panel) */
+.card, .auth-card {
+  width: 100%;
+  background: linear-gradient(145deg, #f7fff9, #e8f9ef);
+  border-radius: 22px;
+  padding: 36px 40px;
+  box-shadow: 0 24px 60px rgba(15,118,110,0.12), 0 6px 18px rgba(2,8,14,0.04);
+  border: 1px solid rgba(34,197,94,0.08);
+}
+
+/* auth header */
+.auth-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.auth-logo { width: 82px; margin: 0 auto -18px auto; display:block; }
+.auth-title { font-size: 28px; margin: 12px 0 6px; font-weight:700; }
+.auth-subtitle, .auth-subtitle-login, .auth-subtitle-register { color: #505050; margin:0 0 8px; }
+
+/* small line */
+.auth-line-login, .auth-line-register, .auth-divider {
+  height: 4px;
+  width: 280px;
+  margin: 8px auto 0;
+  background: linear-gradient(90deg,#22c55e,#4ade80);
+  border-radius: 999px;
+}
+
+/* form & inputs */
+.auth-form-login, .auth-form-register, .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.form-group { display:flex; flex-direction:column; gap:8px; }
+.form-label { font-weight:600; color:#1f2937; font-size:0.95rem; }
+
+.input-wrapper {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background: rgba(179, 247, 214, 085);
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: all .18s ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: #22c55e;
+  box-shadow: 0 6px 20px rgba(34,197,94,0.14);
+  background: #f4fff9;
+}
+
+.input-icon {
+  width:36px; height:36px; border-radius:999px; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(145deg,#22c55e,#16a34a);
+  box-shadow: 0 8px 18px rgba(16,185,129,0.12);
+  flex-shrink:0;
+}
+.input-icon img, .input-icon svg { width:18px; height:18px; display:block; }
+
+.input-wrapper input, .input-wrapper textarea {
+  border: none; outline:none; background:transparent; font-size:15px; color:#0f1724; width:100%;
+}
+.textarea-wrapper { padding:12px 16px; border-radius:20px; background: rgba(179,247,214,0.85); box-shadow: 0 8px 24px rgba(2,8,14,0.02); }
+
+/* eye button */
+.eye-btn, .pw-btn { background:transparent; border:none; cursor:pointer; font-size:1rem; margin-left:8px; opacity:0.8; }
+
+/* primary button */
+.btn-primary {
+  display:inline-flex; justify-content:center; align-items:center;
+  width:100%; padding:14px 18px; border-radius:999px; border:none; cursor:pointer;
+  background: linear-gradient(135deg,#22c55e,#16a34a); color:#000000; font-weight:700; font-size:1rem;
+  box-shadow: 0 18px 36px rgba(22,163,74,0.2);
+  position:relative; overflow:hidden;
+}
+.btn-primary::after {
+  content:""; position:absolute; top:0; left:-40%; width:40%; height:100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255, 255, 255, 0.6), rgba(255,255,255,0));
+  transform: skewX(-20deg); transition:left .6s ease, opacity .6s;
+  opacity:0;
+}
+.btn-primary:hover::after { left:120%; opacity:1; }
+
+/* footer link small */
+.auth-footer-text { text-align:center; margin-top:10px; color:#475569; }
+.auth-footer-text a { color:#16a34a; font-weight:600; text-decoration:none; }
+
+/* flash message container */
+.flash-container { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 1100; }
+
+/* mini menu (top-left links) */
+.auth-mini-menu {
+  position: fixed;
+  top: 14px;
+  left: 18px;
+  display:flex;
+  gap:14px;
+  z-index: 1200;
+}
+.auth-mini-menu a { text-decoration:none; color:#116530; font-weight:600; background: rgb(255, 255, 255); padding:6px 10px; border-radius:8px; }
+
+/* responsive */
+@media (max-width: 960px) {
+  .card { padding: 28px; border-radius:18px; }
+  .card-wrap { max-width:680px; margin:0 auto; }
+  .auth-line-login, .auth-line-register { width:180px; }
+}
+
+@media (max-width: 520px) {
+  .page-bg { padding: 18px; background-position: top center; }
+  .card-wrap { max-width: 420px; }
+  .auth-mini-menu { left: 10px; top: 10px; gap:8px; font-size:14px; }
+  .auth-logo { width:70px; }
+}
+
+
+
+/* dipakai kalau ada struktur .input-group lama */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #e8f9f0;
+  padding: 12px 18px;
+  border-radius: 40px;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* ===================================================== */
+/*         REFINEMENT: HEADER LOGIN & REGISTER           */
+/*         (style lebih presisi & konsisten)             */
+/* ===================================================== */
+
+/* --- header login spesifik --- */
+.auth-header-login {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.auth-header-login .auth-logo {
+  width: 78px;
+  margin-bottom: -18px;
+}
+
+.auth-header-login .auth-title {
+  margin-top: 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.auth-header-login .auth-subtitle-login {
+  margin-top: -4px;
+  margin-bottom: 4px;
+  font-size: 15px;
+  color: #555;
+}
+
+.auth-header-login .auth-line-login {
+  width: 260px;
+  height: 4px;
+  background: #1eba62;
+  border-radius: 999px;
+  margin-top: 6px;
+}
+
+/* --- header register spesifik --- */
+.auth-header-register {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.auth-header-register .auth-logo {
+  width: 78px;
+  margin-bottom: -16px;
+}
+
+.auth-header-register .auth-title {
+  margin-top: 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.auth-header-register .auth-subtitle-register {
+  margin-top: -4px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #555;
+}
+
+.auth-header-register .auth-line-register {
+  width: 320px;
+  height: 4px;
+  background: #1eba62;
+  border-radius: 999px;
+  margin-top: 6px;
+}
+
+/* ===================================================== */
+/*              REFINEMENT: SPACING INPUT                */
+/* ===================================================== */
+
+/* jarak antar field lebih rapih */
+.form-group {
+  margin-bottom: 18px;
+  gap: 6px;
+}
+
+/* jarak label ↔ input lebih enak */
+.input-wrapper {
+  margin-top: 4px;
+  padding: 10px 16px;
+}
+
+/* icon sedikit menjauh dari teks */
+.input-icon {
+  margin-right: 12px;
+}
+
+/* textarea wrapper tidak terlalu besar */
+.textarea-wrapper {
+  padding: 12px 18px;
+  max-height: 160px;
+}
+
+/* textarea tidak kelebaran & rapi */
+.textarea-wrapper textarea {
+  min-height: 80px;
+  font-size: 15px;
+}
+
+/* ==== EFFECT: tombol ada kilau saat di-hover ==== */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0)
+  );
+  opacity: 0;
+  transform: skewX(-20deg);
+  transition: left 0.5s ease, opacity 0.5s ease;
+}
+
+.btn-primary:hover::after {
+  left: 120%;
+  opacity: 1;
+}
+
+/* ==== FIX TOGGLE PASSWORD REGISTER & LOGIN ==== */
+
+.input-wrapper {
+  position: relative;
+  overflow: visible !important;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  pointer-events: auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-icon {
+  pointer-events: none;
+}
+
+/* pastikan card tidak memblok klik */
+.auth-card,
+.glass {
+  pointer-events: auto !important;
+}
+
+/* ==== EFFECT: input glow lembut saat fokus ==== */
+.input-wrapper {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.input-wrapper:focus-within {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.30);
+  background: #f4fff9;
+}
+
+/* ---------- Dashboard specific ---------- */
+
+/* =========================
+   DASHBOARD LAYOUT (FIGMA)
+========================= */
+
+.dashboard-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  background: #eafff2;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(15,118,110,.18);
+  overflow: hidden;
+}
+
+/* TOPBAR */
+.dashboard-topbar {
+  height: 64px;
+  background: #7fe3b8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.top-logo {
+  width: 34px;
+}
+
+.top-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* BODY */
+.dashboard-body {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+}
+
+/* SIDEBAR */
+.dashboard-sidebar {
+  background: #b7f7d0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #dfffee;
+}
+
+.sidebar-card {
+  background: #eafff2;
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(16,185,129,.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* MAIN */
+.dashboard-main {
+  padding: 26px;
+}
+
+.dashboard-main h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.dashboard-subtitle {
+  font-size: 13px;
+  color: #047857;
+  margin-bottom: 18px;
+}
+
+/* GRID CARD */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.dash-card {
+  background: #dfffee;
+  padding: 18px;
+  border-radius: 16px;
+  min-height: 140px;
+  box-shadow: 0 10px 24px rgba(16,185,129,.08);
+}
+
+.btn-upload {
+  margin-top: 10px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+
+
+/* ===== DASHBOARD MAIN ===== */
+
+.dashboard-main {
+  padding: 10px 0;
+}
+
+/* HEADER */
+.dashboard-header h1 {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #047857;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* GRID */
+.dashboard-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 280px 1fr 1fr;
+  gap: 18px;
+}
+
+/* COLUMNS */
+.dash-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* UPLOAD CARD */
+.upload-card {
+  background: #d1fae5;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 8px 20px rgba(16,185,129,.08);
+}
+
+.upload-card h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.upload-card p {
+  font-size: 12px;
+  color: #065f46;
+  margin: 6px 0 10px;
+}
+
+.btn-upload {
+  background: #22c55e;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* BIG CARD */
+.card.large {
+  background: #d1fae5;
+  border-radius: 16px;
+  padding: 14px;
+  min-height: 100%;
+  box-shadow: 0 10px 24px rgba(16,185,129,.1);
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-head h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.link-small {
+  font-size: 12px;
+  color: #16a34a;
+  text-decoration: none;
+}
+
+/* HISTORY LIST */
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px dashed rgba(0,0,0,.08);
+}
+
+.ok {
+  color: #16a34a;
+}
+
+.fail {
+  color: #dc2626;
+}
+.total {
+  font-weight: 700;
+}
+
+/* ===== STAT CARD ===== */
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #d1fae5;
+  padding: 12px;
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(16,185,129,.1);
+}
+
+.stat-icon {
+  font-size: 22px;
+  background: #a7f3d0;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #065f46;
+}
+
+.stat-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.stat-value .value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.eye-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.hidden {
+  letter-spacing: 2px;
+}
+
+/* ============================= */
+/* BACKGROUND DASHBOARD */
+/* ============================= */
+
+body.page-dashboard {
+  min-height: 100vh;
+  background:
+    linear-gradient(
+      rgba(210, 252, 224, 0.92),
+      rgba(187, 247, 208, 0.94)
+    ),
+    url("../img/background-struk.png");
+  background-size: auto, 420px 420px;
+  background-repeat: no-repeat, repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 0;
+}
+.dashboard-wrapper {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ============================= */
+/* DASHBOARD CONTAINER */
+/* ============================= */
+
+.dashboard-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-container {
+  width: 1200px;
+  min-height: 720px;
+  background: #eafff2;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  box-shadow:
+    0 24px 60px rgba(15, 118, 110, 0.18),
+    0 2px 8px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+@media (max-width: 1280px) {
+  .dashboard-container {
+    width: 100%;
+    grid-template-columns: 220px 1fr;
+  }
+}
+
+/* ============================= */
+/* SIDEBAR */
+/* ============================= */
+
+.dashboard-sidebar {
+  background: linear-gradient(180deg, #b7f7d0, #a3f0c3);
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #eafff2;
+  padding: 12px 14px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(16,185,129,0.08);
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(145deg,#22c55e,#16a34a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.stat-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dashboard-content {
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* card umum */
+.card {
+  background: #dfffee;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(16,185,129,0.06);
+}
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* ========================= */
+/* FIX TOTAL TOGGLE PASSWORD */
+/* ========================= */
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: visible !important;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 48px;
+}
+
+/* tombol mata */
+.eye-btn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  padding: 0;
+}
+
+/* SVG icon */
+.eye-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+
+.eye-btn:hover .eye-icon {
+  opacity: 1;
+}
+
+/* icon kiri JANGAN ganggu klik */
+.input-icon {
+  pointer-events: none;
+}
+
+/* ===== EYE TOGGLE ANIMATION ===== */
+
+.eye-icon {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.25s ease;
+}
+
+.eye-open {
+  transition: opacity 0.25s ease;
+}
+
+.eye-slash {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* ketika password terlihat */
+.eye-btn.active .eye-open {
+  opacity: 0.3;
+}
+
+.eye-btn.active .eye-slash {
+  opacity: 1;
+}
+
+.eye-btn.active .eye-icon {
+  transform: rotate(-8deg);
+}
+
+/* ============================= */
+/* FIX TEXTAREA REGISTER (BUG) */
+/* ============================= */
+
+.textarea-wrapper {
+  background: #B3F7D6;
+  border-radius: 18px;
+  padding: 14px 16px;
+  box-shadow: inset 0 0 0 1px rgba(34,197,94,0.15);
+}
+
+.textarea-wrapper textarea {
+  width: 100%;
+  min-height: 90px;
+  resize: vertical;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: #065f46;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.textarea-wrapper:focus-within {
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.25);
+}
+
+/* ============================= */
+/* REMOVE INNER INPUT GREY AREA */
+/* ============================= */
+
+/* input & textarea benar-benar transparan */
+.input-wrapper input,
+.input-wrapper textarea,
+.textarea-wrapper textarea {
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* autofill chrome FIX (INI PALING PENTING) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: #065f46 !important;
+  transition: background-color 9999s ease-out;
+}
+
+/* pastikan wrapper jadi satu-satunya background */
+.input-wrapper {
+  background: rgba(179, 247, 214, 0.85) !important;
+}
+
+/* ============================= */
+/* FIX FONT SIZE INPUT & PLACEHOLDER */
+/* ============================= */
+
+.input-wrapper input,
+.input-wrapper textarea {
+  font-size: 15px;        /* KUNCI ukuran font */
+  line-height: 1.4;       /* KUNCI tinggi baris */
+  color: #0f1724;
+}
+
+/* Placeholder ikut ukuran input */
+.input-wrapper input::placeholder,
+.input-wrapper textarea::placeholder {
+  font-size: 15px;        /* HARUS SAMA */
+  line-height: 1.4;
+  color: #6b7280;         /* abu soft (opsional) */
+  opacity: 1;             /* ilangin efek pudar default */
+}
+
+/* Saat focus, JANGAN berubah ukuran */
+.input-wrapper input:focus,
+.input-wrapper textarea:focus {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* ===== DASHBOARD LAYOUT ===== */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.dashboard-sidebar {
+  background: linear-gradient(180deg, #b7f7d0, #a3f0c3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.sidebar-logo {
+  width: 36px;
+}
+
+.sidebar-search {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 14px;
+  outline: none;
+}
+
+.sidebar-card {
+  background: #eafff2;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+/* ===== MAIN ===== */
+.dashboard-main {
+  padding: 28px;
+}
+
+.dashboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-subtitle {
+  color: #047857;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* ===== CONTENT GRID ===== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.dashboard-card {
+  background: #eafff2;
+  border-radius: 16px;
+  padding: 18px;
+  min-height: 160px;
+}
+
+.btn-upload {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* ===== DASHBOARD CONTAINER ===== */
+.dashboard-container {
+  width: 1725px;
+  min-height: 600px;
+  background: linear-gradient(145deg,#eafff2,#dfffee);
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  box-shadow: 0 30px 80px rgba(16,185,129,.25);
+  overflow: hidden;
+}
+
+/* ===== SIDEBAR ===== */
+.dash-sidebar {
+  background: linear-gradient(180deg,#B3F7D6,#B3F7D6);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dash-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.dash-logo img {
+  width: 36px;
+}
+
+.dash-search {
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+}
+
+.dash-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-item {
+  background: #eafff2;
+  padding: 14px 16px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+/* ===== MAIN ===== */
+.dash-main {
+  padding: 34px;
+}
+
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dash-sub {
+  font-size: 14px;
+  color: #047857;
+  margin-bottom: 22px;
+}
+
+/* ===== GRID ===== */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 24px;
+  margin-top: 18px;
+}
+
+
+.dash-card {
+  border-radius: 18px;
+  padding: 22px;
+  min-height: 200px;
+  box-shadow: 0 12px 28px rgba(16,185,129,.1);
+}
+
+.btn-upload {
+  margin-top: 12px;
+  background: #22c55e;
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.dash-main h1 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.dash-main h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.dash-main p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.dash-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.topbar-left p {
+  font-size: 13px;
+  color: #047857;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #d1fae5;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.user-avatar {
+  background: #22c55e;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== DASHBOARD WRAPPER ===== */
+.dashboard-wrapper {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  height: calc(100vh - 40px);
+  max-width: 1400px;
+  margin: 30px auto;
+  border-radius: 24px;
+  background: #e9fff4;
+  overflow: hidden;
+}
+
+/* ===== SIDEBAR ===== */
+.dashboard-sidebar {
+  background: #bff5d9;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.sidebar-logo {
+  width: 32px;
+}
+
+.sidebar-search input {
+  width: 100%;
+  margin: 20px 0;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+}
+
+.sidebar-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.stat-box {
+  background: #ecfff6;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+/* ===== MAIN ===== */
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR */
+.dashboard-topbar {
+  height: 64px;
+  background: #8be5c0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.user-chip {
+  background: #dffdf0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* CONTENT */
+.dashboard-content {
+  padding: 30px;
+}
+
+.dashboard-sub {
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #2f7f5a;
+}
+
+/* CARDS */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.dash-card {
+  background: #ecfff6;
+  border-radius: 20px;
+  padding: 24px;
+  /* SHADOW DIHILANGKAN */
+  box-shadow: none;
+}
+
+.btn-upload {
+  margin-top: 16px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #22c55e;
+  color: #fff;
+  cursor: pointer;
+}
+/* ================= DASHBOARD FULL WIDTH ================= */
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  width: 100vw;
+  height: 100vh;
+  background: #dffdf0;
+}
+
+/* SIDEBAR */
+.dashboard-sidebar {
+  background: #bff5d9;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.sidebar-header img {
+  width: 30px;
+}
+
+.sidebar-search {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+
+.sidebar-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.stat-item {
+  background: #ecfff6;
+  padding: 14px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* MAIN */
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR */
+.dashboard-topbar {
+  height: 64px;
+  background: #71D9B8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.user-chip {
+  background: #dffdf0;
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+/* CONTENT */
+.dashboard-content {
+  padding: 32px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.subtext {
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #2f7f5a;
+}
+
+/* GRID */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* CARD */
+.dash-card {
+  background: #ecfff6;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: none; /* SHADOW DIHILANGKAN */
+}
+
+/* BUTTON */
+.btn-upload {
+  margin-top: 14px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  cursor: pointer;
+}
+.dashboard-layout {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  background: #dffdf0;
+}
+.no-container .container {
+  max-width: none;
+  padding: 0;
+}
+/* ===== BOTTOM BAR ===== */
+.dash-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 300px; /* sama dengan lebar sidebar */
+  width: calc(100% - 300px);
+  height: 60px;
+
+  background: #71D9B8; /* warna hijau seperti topbar */
+  border-radius: 12px 12px 0 0;
+  
+  display: flex;
+  align-items: center;
+
+  padding-left: 24px; /* 🔥 ini yang bikin agak ke kanan */
+}
+
+.dash-main {
+  padding-top: 80px;   /* untuk top bar */
+  padding-bottom: 80px; /* untuk bottom bar */
+}
+.dash-top-bar {
+  position: fixed;
+  top: -28px;
+  left: -28px; /* sama dengan sidebar */
+  width: calc(102% - -28px);
+  height: 60px;
+
+  background: #71D9B8;
+  border-radius: 0 0 12px 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 24px;
+  z-index: 20;
+}
+.dash-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 300px;
+  height: 100vh;
+
+  background: #71D9B8;
+}
+.footer-text {
+  margin-left: 24px;
+}
+/* ============================= */
+/*      REFINEMENT: BRAND LOGO   */
+.brand-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.brand-logo img {
+  width: 48px;
+  height: auto;
+}
+
+.brand-logo h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: #0b3d2e;
+}
+
+.brand-logo p {
+  font-size: 11px;
+  color: #2f7d63;
+  margin: 0;
+  text-align: center;
+}
+.dash-sidebar .brand-logo img {
+  width: 40px;
+}
+
+.dash-sidebar .brand-logo h1 {
+  font-size: 18px;
+}
+
+.dash-sidebar .brand-logo p {
+  font-size: 11px;
+}
+/* =========================
+  DASHBOARD LOGO (MATCH LOGIN)
+   ========================= */
+
+.dash-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 18px 22px;
+  text-align: center;
+}
+
+.dash-logo-icon {
+  width: 54px;
+  height: auto;
+  margin-bottom: -15px;
+}
+
+.dash-logo-title {
+  font-size: 25px;
+  font-weight: 800;
+  margin: 0;
+  color: #0b3d2e;
+}
+
+.dash-logo-sub {
+  font-size: 11px;
+  color: #3f7f66;
+  margin: 4px 0 -5px;
+}
+
+.dash-logo-line {
+  width: 85%;
+  height: 3px;
+  background-color: #22c55e; /* hijau login */
+  border-radius: 5px;
+}
+.auth-title,
+.dash-logo-title {
+  letter-spacing: 0.8px;
+}
+#flash-wrapper {
+  position: fixed;
+  top: 70px; /* pas di bawah top bar */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+.flash-message {
+  background: #B3F7D6;
+  color: #0b5136;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  opacity: 1;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.dash-sidebar {
+  width: 280px;       /* ← untuk ukuran normal dashboard */
+  min-width: 280px;
+}
+/* KONTEN UTAMA */
+.dash-main {
+  flex: 1;
+  padding: 30px;
+}
+
+/* BATASI AREA KONTEN */
+.dash-content {
+  max-width: 1150px;   /* untuk KUNCINYA */
+  width: 100%;
+}
+.upload-wrapper {
+  max-width: 800px;   /* lebih kecil dari konten utama */
+}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+.upload-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upload-card {
+  background: #b9f7d1;
+  padding: 18px 22px;
+  border-radius: 14px;
+  min-height: 150px;   /* ⬅️ penting supaya seimbang */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.history-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.history-card {
+  background: #eafff4;
+  border-radius: 16px;
+  padding: 20px;
+  min-height: 180px;
+}
+.dash-top-bar {
+  position: relative;   /* JANGAN fixed */
+  z-index: 10;
+  margin-bottom: 45px;
+}
+.breadcrumb {
+  margin-bottom: 20px;
+}
+.upload-wrapper {
+  margin-top: 10px;
+}
+.dashboard-main h1 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 5;
+}
+.dashboard-header {
+  margin-bottom: 20px;
+}
+/* ===== UPLOAD PLUS BUTTON ===== */
+.upload-plus {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+}
+
+.eye-toggle {
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 16px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.eye-toggle:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+.stat-value {
+  margin-left: 6px;
+  transition: opacity 0.3s ease;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.eye-toggle {
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 4px;
+  user-select: none;
+}
+
+.stat-value {
+  min-width: 24px;
+  text-align: right;
+}
+
+/* ============================= */
+/* KARTU USER */
+/* ============================= */
+
+.kartu-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.kartu-user {
+  width: 85%;
+  max-width: 950px;
+  background: #bff5dd;
+  border-radius: 18px;
+  padding: 30px 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.kartu-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.kartu-header .avatar {
+  width: 70px;
+  height: 70px;
+  background: #6fcf97;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin: auto;
+}
+
+.kartu-header h2 {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.kartu-body {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-top: 10px;
+}
+
+.kartu-footer {
+  margin-top: 30px;
+}
+
+.btn-tukar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #7bdcb5;
+  color: #2f5d50;
+  padding: 12px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-tukar:hover {
+  background: #6acfa9;
+}
+
+
+/* Breadcrumb Dashboard */
+.breadcrumb a {
+  color: #2fa97c;              /* hijau utama */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.breadcrumb a:hover {
+  color: #1f8a65;              /* hijau lebih gelap */
+  text-decoration: underline;
+}
+
+
+
+/* ANIMASI SATU ARAH (TENGAH) */
+@keyframes flashFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+.flash-center {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  padding: 14px 24px;
+  border-radius: 14px;
+}
+/* ===================== */
+/* TOAST NOTIFICATION */
+/* ===================== */
+#toast-container {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+.toast {
+  min-width: 260px;
+  max-width: 420px;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  animation: toastIn 0.45s ease forwards;
+}
+
+/* WARNA */
+.toast-success { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.toast-danger  { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.toast-warning { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+.toast-info    { background: linear-gradient(135deg, #3498db, #2980b9); }
+
+/* ANIMASI MASUK */
+@keyframes toastIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ANIMASI KELUAR */
+.toast.hide {
+  animation: toastOut 0.4s ease forwards;
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+}
+
+.card-user-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.user-card {
+  width: 420px;
+  padding: 30px;
+  border-radius: 18px;
+  text-align: center;
+  background: linear-gradient(145deg, #bff5da, #d9fff0);
+  box-shadow: 0 20px 40px rgba(0,0,0,.08);
+  animation: fadeUp .6s ease;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  border-radius: 50%;
+  background: #2bb673;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-user::before {
+  content: "👤";
+  font-size: 36px;
+}
+
+.user-name {
+  margin-top: 15px;
+  font-weight: 700;
+}
+
+.user-email,
+.user-alamat {
+  font-size: 14px;
+  opacity: .85;
+}
+
+.user-stats {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.stat-box {
+  flex: 1;
+  padding: 15px;
+  border-radius: 14px;
+  background: #eafff5;
+  box-shadow: inset 0 0 0 1px #b9eed6;
+}
+
+.stat-icon {
+  font-size: 22px;
+}
+
+.stat-box h3 {
+  margin: 6px 0 0;
+  font-size: 22px;
+}
+
+.stat-box p {
+  font-size: 13px;
+  opacity: .8;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.eye-toggle {
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.eye-toggle:hover {
+  opacity: 1;
+}
+
+/* PENUKARAN HADIAH */
+.penukaran-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+  margin-top: 10px;
+}
+
+.hadiah-section,
+.riwayat-section {
+  background: #bdf5dc;
+  border-radius: 25px;
+  padding: 18px;
+}
+
+.hadiah-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 10px;
+}
+
+.hadiah-card {
+  background: #eafff5;
+  border-radius: 15px;
+  padding: 10px;
+  text-align: center;
+  transition: .3s;
+}
+
+.hadiah-card:hover {
+  transform: translateY(-25px);
+}
+
+.hadiah-card img {
+  width: 40px;
+  margin-bottom: -20px;
+}
+
+.hadiah-card button {
+  background: #2bb673;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: -5px;
+  cursor: pointer;
+}
+
+.riwayat-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.riwayat-list li {
+  background: #eafff5;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+/* ===== PAGE HEADER ===== */
+.page-header {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0b3d2e;
+}
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb {
+  margin-top: 6px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb-link {
+  color: #1aa36f;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.breadcrumb-link:hover {
+  color: #0f7a54;
+  text-decoration: underline;
+}
+
+.breadcrumb-link.active {
+  color: #0f7a54;
+  font-weight: 600;
+  pointer-events: auto;
+}
+
+.breadcrumb-separator {
+  color: #6fc9a5;
+}
+
+/* ===== Main Content ===== */
+.main-content {
+    margin-top: -5px; /* naikkan seluruh isi */
+}
+.main-content {
+    padding-bottom: 120px;
+}
+.hadiah-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 5px; /* jangan terlalu besar */
+}
+.card-hadiah {
+    margin-top: 0;
+    padding: 16px;
+    border-radius: 16px;
+}
+footer {
+    margin-top: 20px;
+}
+/* ===== Tombol Tukar ===== */
+.btn-tukar {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.btn-tukar:hover {
+  background-color: #27ae60;
+  transform: scale(1.05);
+}
+
+.btn-tukar:active {
+  transform: scale(0.95);
+}
+
+.hadiah-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* ⬅️ INI KUNCINYA */
+    text-align: center;
+}
+
+.hadiah-card button {
+    margin-top: 12px;
+}
+
+

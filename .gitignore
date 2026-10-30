@@ -1,0 +1,53 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+.venv-1/
+venv/
+env/
+
+# Editor
+.vscode/
+.idea/
+
+# Database lokal
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache dan log
+.pytest_cache/
+.mypy_cache/
+*.log
+
+# Sistem
+.DS_Store
+Thumbs.db
+
+# Uploaded transaction files
+Static/uploads/
+Static/img/struk/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.venv-1/
+venv/
+
+# Uploaded receipt images
+Static/uplouds/
+Static/uploads/
+Static/img/struk/

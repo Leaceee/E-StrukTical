@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% block title %}Kartu User - E-Struktical{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="dashboard-sidebar">
+    <div class="dash-logo">
+      <img src="{{ url_for('static', filename='img/logo-daun.png') }}" class="dash-logo-icon">
+      <h2 class="dash-logo-title">E-Struktical</h2>
+      <p class="dash-logo-sub">Struk Digital, Poin Ramah Lingkungan</p>
+      <div class="dash-logo-line"></div>
+    </div>
+
+    <input class="sidebar-search" placeholder="Search">
+
+    
+    <div class="sidebar-stats">
+      <div class="stat-item">
+  ⭐ Jumlah Point
+  <span class="eye-toggle" onclick="toggleStat(this)">👁️‍🗨️</span>
+  <b class="stat-value" data-value="{{ total_poin }}">•••</b>
+</div>
+  
+  <div class="stat-item">
+    🎁 Jumlah Hadiah
+    <span class="eye-toggle" onclick="toggleStat(this)">👁️‍🗨️</span>
+    <b class="stat-value" data-value="06">•••</b>
+  </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <section class="dashboard-main">
+
+    <div class="dash-top-bar">
+      <span class="menu-icon">☰</span>
+      <div class="user-login-status">
+    👤 <span>User ID: {{ session['user_id'] }}</span>
+      </div>
+    </div>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <h1>Penukaran Hadiah</h1>
+    <div class="breadcrumb">
+  <a href="{{ url_for('dashboard') }}">Dashboard</a> /
+  <a href="{{ url_for('kartu_user') }}">Informasi Akun User</a>
+</div>
+
+    <div class="penukaran-grid">
+
+      <!-- HADIAH -->
+      <div class="hadiah-section">
+        <h3>Hadiah Yang Bisa Ditukarkan</h3>
+
+        <div class="hadiah-grid">
+          <div class="hadiah-card">
+            <img src="/static/img/pulsa10k.png">
+            <h4>Pulsa 10.000</h4>
+            <p>50 Points</p>
+
+              <button class="btn-tukar"
+                onclick="tukarHadiah('Pulsa 10.000', 50)">
+                Tukar
+              </button>
+            </div>
+
+
+          <div class="hadiah-card">
+            <img src="/static/img/voucher25k.png">
+            <h4>Voucher Pulsa 25.000</h4>
+            <p>100 Points</p>
+
+            <button class="btn-tukar"
+              onclick="tukarHadiah('Voucher 25.000', 100)">
+              Tukar
+            </button>
+          </div>
+
+          
+          <div class="hadiah-card">
+            <img src="/static/img/totebag.png">
+            <h4>Totebag</h4>
+            <p>120 Points</p>
+
+            <button class="btn-tukar"
+              onclick="tukarHadiah('Totebag', 120)">
+              Tukar
+            </button>
+          </div>
+
+
+          <div class="hadiah-card">
+            <img src="/static/img/blender.png">
+            <h4> Mesin Blender</h4>
+            <p>400 Points</p>
+
+            <button class="btn-tukar"
+              onclick="tukarHadiah('Mesin Blender', 400)">
+              Tukar
+            </button>
+          </div>
+
+          
+          <div class="hadiah-card">
+            <img src="/static/img/hotel3star.png">
+            <h4>Voucher Hotel 1 Malam (3★)</h4>
+            <p>800 Points</p>
+
+            <button class="btn-tukar"
+              onclick="tukarHadiah('Voucher Hotel 1 Malam (3★)', 800)">
+              Tukar
+            </button>
+          </div>
+
+          <div class="hadiah-card">
+            <img src="/static/img/paket liburan.png">
+            <h4>Paket Liburan Luar Kota (2 Hari)</h4>
+            <p>2000 Points</p>
+
+            <button class="btn-tukar"
+              onclick="tukarHadiah('Paket Liburan Luar Kota (2 Hari)', 2000)">
+              Tukar
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- RIWAYAT -->
+      <div class="riwayat-section">
+        <h3>Riwayat Redeem Hadiah</h3>
+              
+            <ul class="riwayat-list">
+              {% for r in riwayat %}
+            <li>
+                <span>{{ r.hadiah_nama }}</span>
+                <small>{{ r.poin }} Poin</small>
+                <small>{{ r.tanggal }}</small>
+            </li>
+              {% else %}
+              <li><small>Belum ada riwayat penukaran</small></li>
+              {% endfor %}
+            </ul>
+        </div>
+
+        <ul class="riwayat-list">
+          <li>
+            <span>User Admin 123</span>
+            <small>Voucher Pulsa 25k</small>
+            <small>20-8-2025</small>
+          </li>
+          <li>
+            <span>User Admin 215</span>
+            <small>Totebag</small>
+            <small>12-8-2025</small>
+          </li>
+        </ul>
+      </div>
+
+      <div class="dash-bottom-bar">
+      <p>© 2025 E-Struktical. Elektronik Struk Practical.</p>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- JAVASCRIPT AJAX -->
+<!-- ===================== -->
+<script>
+function tukarHadiah(nama, poin) {
+  fetch("/api/redeem", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      nama_hadiah: nama,
+      poin: poin
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+
+    if (data.success) {
+      // update poin
+      document.getElementById("total-poin").innerText = data.total_poin;
+
+      // tambah riwayat TANPA reload
+      tambahRiwayat(data.riwayat_terbaru);
+    }
+  });
+}
+
+function tambahRiwayat(item) {
+  const ul = document.querySelector(".riwayat-list");
+
+  // hapus tulisan "Belum ada riwayat"
+  if (ul.innerText.includes("Belum ada")) {
+    ul.innerHTML = "";
+  }
+
+  const li = document.createElement("li");
+  li.innerHTML = `
+    <span>${item.nama_user}</span>
+    <small>${item.hadiah}</small>
+    <small>${item.tanggal}</small>
+  `;
+
+  ul.prepend(li);
+}
+</script>
+
+{% endblock %}
+
